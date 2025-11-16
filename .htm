@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estate Hub - Your Real Estate Solution</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-left: 10px;
+        }
+        
+        .logo span {
+            color: #3498db;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #3498db;
+        }
+        
+        .auth-buttons {
+            display: flex;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-login {
+            background-color: transparent;
+            color: #3498db;
+            border: 1px solid #3498db;
+            margin-right: 10px;
+        }
+        
+        .btn-register {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        .search-box {
+            background: white;
+            border-radius: 5px;
+            padding: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-box input, .search-box select {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .search-box button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        /* Properties Section */
+        .properties {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .section-title p {
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .property-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .property-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .property-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .property-card:hover .property-image img {
+            transform: scale(1.1);
+        }
+        
+        .property-info {
+            padding: 20px;
+        }
+        
+        .property-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        
+        .property-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .property-location {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        
+        .property-features {
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        
+        .feature {
+            text-align: center;
+        }
+        
+        .feature span {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .feature label {
+            font-size: 0.8rem;
+            color: #7f8c8d;
+        }
+        
+        /* About Section */
+        .about {
+            padding: 80px 0;
+            background-color: #f1f2f6;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h2 {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 40px;
+            height: 2px;
+            background-color: #3498db;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-column ul li a:hover {
+            color: #3498db;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+            }
+            
+            nav ul {
+                margin: 20px 0;
+            }
+            
+            .auth-buttons {
+                margin-top: 10px;
+            }
+            
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-box input, .search-box select {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <h1>Estate<span>Hub</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#properties">Properties</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="#" class="btn btn-login">Login</a>
+                <a href="#" class="btn btn-register">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h2>Find Your Dream Property</h2>
+            <p>Browse through our extensive collection of properties and find the perfect place to call home.</p>
+            <div class="search-box">
+                <input type="text" placeholder="Search by location...">
+                <select>
+                    <option value="">Property Type</option>
+                    <option value="house">House</option>
+                    <option value="apartment">Apartment</option>
+                    <option value="villa">Villa</option>
+                    <option value="commercial">Commercial</option>
+                </select>
+                <select>
+                    <option value="">Price Range</option>
+                    <option value="0-100000">$0 - $100,000</option>
+                    <option value="100000-300000">$100,000 - $300,000</option>
+                    <option value="300000-500000">$300,000 - $500,000</option>
+                    <option value="500000+">$500,000+</option>
+                </select>
+                <button>Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Properties Section -->
+    <section class="properties" id="properties">
+        <div class="container">
+            <div class="section-title">
+                <h2>Featured Properties</h2>
+                <p>Explore our handpicked selection of premium properties</p>
+            </div>
+            <div class="properties-grid">
+                <!-- Property 1 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Modern Apartment">
+                    </div>
+                    <div class="property-info">
+                        <div class="property-price">$350,000</div>
+                        <h3 class="property-title">Modern Downtown Apartment</h3>
+                        <div class="property-location">Downtown, Sahiwal</div>
+                        <div class="property-features">
+                            <div class="feature">
+                                <span>3</span>
+                                <label>Beds</label>
+                            </div>
+                            <div class="feature">
+                                <span>2</span>
+                                <label>Baths</label>
+                            </div>
+                            <div class="feature">
+                                <span>1,200</span>
+                                <label>Sq Ft</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 2 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1518780664697-55e3ad937233?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Luxury Villa">
+                    </div>
+                    <div class="property-info">
+                        <div class="property-price">$750,000</div>
+                        <h3 class="property-title">Luxury Family Villa</h3>
+                        <div class="property-location">Green Valley, Sahiwal</div>
+                        <div class="property-features">
+                            <div class="feature">
+                                <span>5</span>
+                                <label>Beds</label>
+                            </div>
+                            <div class="feature">
+                                <span>4</span>
+                                <label>Baths</label>
+                            </div>
+                            <div class="feature">
+                                <span>3,500</span>
+                                <label>Sq Ft</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 3 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Cozy House">
+                    </div>
+                    <div class="property-info">
+                        <div class="property-price">$275,000</div>
+                        <h3 class="property-title">Cozy Suburban House</h3>
+                        <div class="property-location">Suburban Area, Sahiwal</div>
+                        <div class="property-features">
+                            <div class="feature">
+                                <span>3</span>
+                                <label>Beds</label>
+                            </div>
+                            <div class="feature">
+                                <span>2</span>
+                                <label>Baths</label>
+                            </div>
+                            <div class="feature">
+                                <span>1,500</span>
+                                <label>Sq Ft</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 4 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Modern House">
+                    </div>
+                    <div class="property-info">
+                        <div class="property-price">$450,000</div>
+                        <h3 class="property-title">Contemporary Family Home</h3>
+                        <div class="property-location">Riverside, Sahiwal</div>
+                        <div class="property-features">
+                            <div class="feature">
+                                <span>4</span>
+                                <label>Beds</label>
+                            </div>
+                            <div class="feature">
+                                <span>3</span>
+                                <label>Baths</label>
+                            </div>
+                            <div class="feature">
+                                <span>2,200</span>
+                                <label>Sq Ft</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Property 5 -->
+                <div class="property-card">
+                    <div class="property-image">
+                        <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Luxury Apartment">
+                    </div>
+                    <div class="property-info">
+                        <div class="property-price">$520,000</div>
+                        <h3 class="property-title">Luxury Penthouse</h3>
+                        <div class="property-location">City Center, Sahiwal</div>
+                        <div class="property-features">
+                            <div class="feature">
+                                <span>3</span>
+                                <label>Beds</label>
+                            </div>
+                            <div class="feature">
+                                <span>3</span>
+                                <label>Baths</label>
+                            </div>
+                            <div class="feature">
+                                <span>2,800</span>
+                                <label>Sq Ft</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>About Estate Hub</h2>
+                    <p>Estate Hub is a comprehensive real estate management and property browsing system designed to simplify property management for agents and enhance customer satisfaction.</p>
+                    <p>Our platform bridges the gap between property seekers and property managers, providing a centralized, user-friendly system that eliminates the inefficiencies of manual methods and scattered digital tools.</p>
+                    <p>With Estate Hub, customers can easily browse properties with advanced filters,
